@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Summarizer</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 40px; background-color: #f7f9fc; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; }
+        button { background-color: #1a73e8; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #1558b8; }
+        #results { margin-top: 20px; }
+        .email { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+        .email h3 { margin-top: 0; color: #333; }
+        .email p { margin: 5px 0; }
+        .loader { display: none; margin: 20px auto; border: 5px solid #f3f3f3; border-radius: 50%; border-top: 5px solid #1a73e8; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Summarizer AI</h1>
+        <p>Click the button to fetch and summarize your 5 latest emails.</p>
+        <button id="fetch-btn">Fetch & Summarize Emails</button>
+        <div class="loader" id="loader"></div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('fetch-btn').addEventListener('click', async () => {
+            const resultsDiv = document.getElementById('results');
+            const loader = document.getElementById('loader');
+            
+            // Clear previous results and show loader
+            resultsDiv.innerHTML = '';
+            loader.style.display = 'block';
+
+            try {
+                // Call our own backend API
+                const response = await fetch('/summarize-emails');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const emails = await response.json();
+
+                if (emails.error) {
+                    throw new Error(emails.error);
+                }
+
+                // Create and append email cards
+                emails.forEach(email => {
+                    const emailCard = document.createElement('div');
+                    emailCard.className = 'email';
+                    emailCard.innerHTML = `
+                        <h3>${email.subject || 'No Subject'}</h3>
+                        <p><strong>From:</strong> ${email.from || 'Unknown Sender'}</p>
+                        <p><strong>Summary:</strong> ${email.summary || 'No summary available.'}</p>
+                    `;
+                    resultsDiv.appendChild(emailCard);
+                });
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> ${error.message}</p>`;
+            } finally {
+                // Hide loader
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
