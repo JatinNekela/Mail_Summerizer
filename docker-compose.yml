@@ -1,11 +1,20 @@
 services:
-  mail-connector:
-    build: ./mail-connector
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    networks:
+      - mail_summarizer_net
+
+  backend:
+    build: ./backend
     ports:
       - "5000:5000"
-    # volumes:
-      # - ./mail-data:/app/data
-    environment:
-      - GMAIL_USER=${GMAIL_USER}
-      - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
-      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY}
+    env_file:
+      - .env
+    networks:
+      - mail_summarizer_net
+
+networks:
+  mail_summarizer_net:
+    driver: bridge

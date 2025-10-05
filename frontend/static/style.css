@@ -1,0 +1,223 @@
+:root {
+    --primary-color: #3ea6ff;
+    --secondary-color: #2a2a2a;
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --hover-color: #5bb2ff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-container {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    gap: 20px;
+}
+
+.panel {
+    background: var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.left-panel {
+    width: 45%;
+    min-width: 420px;
+}
+
+.right-panel {
+    width: 55%;
+    flex-grow: 1;
+}
+
+.header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+h1 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 24px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+select {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: #1e1e1e;
+    color: var(--text-color);
+    flex-grow: 1;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+.email-list {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.email-card {
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    margin: 10px 15px;
+}
+
+.email-card:hover,
+.email-card.active {
+    background-color: #2a2a2a;
+    transform: scale(1.02);
+}
+
+.email-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email-card p {
+    margin: 4px 0;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.email-card .summary {
+    font-style: italic;
+    color: #bbbbbb;
+    margin-top: 10px;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.chat-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: #777;
+}
+
+.chat-window {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.4;
+    font-size: 15px;
+}
+
+.user-msg {
+    background-color: #0057b7;
+    align-self: flex-end;
+    margin-left: auto;
+    color: #fff;
+}
+
+.ai-msg {
+    background-color: #2c2c2c;
+    align-self: flex-start;
+    color: #e0e0e0;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+    background-color: #1b1b1b;
+}
+
+input {
+    flex-grow: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #262626;
+    color: #fff;
+}
+
+.loader {
+    display: none;
+    margin: 20px auto;
+    border: 4px solid #333;
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Scrollbar styling for dark mode */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}

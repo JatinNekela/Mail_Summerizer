@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mail Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- Left Panel: Emails -->
+        <div class="panel left-panel">
+            <div class="header">
+                <h1>Email Summaries</h1>
+            </div>
+            <div class="controls">
+                <select id="model-select">
+                    <option value="llama3.1-8b">llama3.1-8b</option>
+                    <option value="gpt-oss-120b">gpt-oss-120b</option>
+                    <option value="qwen-3-235b-a22b-instruct-2507">qwen-3-235b-a22b-instruct-2507</option>
+                </select>
+                <button id="fetch-btn">Fetch & Summarize</button>
+            </div>
+            <div class="loader" id="email-loader"></div>
+            <div class="email-list" id="email-list">
+                 <p style="text-align:center; padding: 20px; color: #777;">Click 'Fetch & Summarize' to see your latest emails.</p>
+            </div>
+        </div>
+
+        <!-- Right Panel: Chat -->
+        <div class="panel right-panel">
+            <div class="chat-container" id="chat-container">
+                <div class="chat-placeholder" id="chat-placeholder">
+                    <h2>AI Mail Assistant</h2>
+                    <p>Select an email on the left to start chatting about it.</p>
+                </div>
+                 <!-- Chat content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
