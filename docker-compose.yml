@@ -1,14 +1,4 @@
-# version: "3.9"
 services:
-  ollama:
-    image: ollama/ollama:latest
-    ports:
-      - "11434:11434"
-    volumes:
-      - ./setup_ollama.sh:/setup_ollama.sh # <-- Mount the script
-      - ollama-data:/root/.ollama
-    entrypoint: ["sh", "/setup_ollama.sh"]    # <-- Run the script on start
-
   mail-connector:
     build: ./mail-connector
     ports:
@@ -18,8 +8,4 @@ services:
     environment:
       - GMAIL_USER=${GMAIL_USER}
       - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
-    depends_on:
-      - ollama
-
-volumes:
-  ollama-data:
+      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY}

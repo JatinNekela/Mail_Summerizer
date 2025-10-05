@@ -16,13 +16,27 @@
         .email p { margin: 5px 0; }
         .loader { display: none; margin: 20px auto; border: 5px solid #f3f3f3; border-radius: 50%; border-top: 5px solid #1a73e8; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* --- New Styles --- */
+        .controls { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        select { padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ddd; }
+        .chat-btn { background-color: #28a745; margin-top: 10px; padding: 8px 15px; font-size: 14px; }
+        .chat-btn:hover { background-color: #218838; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Email Summarizer AI</h1>
-        <p>Click the button to fetch and summarize your 5 latest emails.</p>
-        <button id="fetch-btn">Fetch & Summarize Emails</button>
+        <h1>Email Summarizer AI 📧</h1>
+        <p>Select a model, then click the button to fetch and summarize your 5 latest emails.</p>
+        
+        <div class="controls">
+            <select id="model-select">
+                <option value="gpt-oss-120b">gpt-oss-120b</option>
+                <option value="llama3.1-8b">llama3.1-8b</option>
+                <option value="qwen-3-235b-a22b-instruct-2507">qwen-3-235b-a22b-instruct-2507</option>
+            </select>
+            <button id="fetch-btn">Fetch & Summarize Emails</button>
+        </div>
+        
         <div class="loader" id="loader"></div>
         <div id="results"></div>
     </div>
@@ -31,14 +45,21 @@
         document.getElementById('fetch-btn').addEventListener('click', async () => {
             const resultsDiv = document.getElementById('results');
             const loader = document.getElementById('loader');
-            
-            // Clear previous results and show loader
+            const selectedModel = document.getElementById('model-select').value; // Get selected model
+
             resultsDiv.innerHTML = '';
             loader.style.display = 'block';
 
             try {
-                // Call our own backend API
-                const response = await fetch('/summarize-emails');
+                // Call our backend API using POST to send the model selection
+                const response = await fetch('/summarize-emails', {
+                    method: 'POST', // Changed to POST
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ model: selectedModel }) // Send model in the body
+                });
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -52,10 +73,14 @@
                 emails.forEach(email => {
                     const emailCard = document.createElement('div');
                     emailCard.className = 'email';
+                    // We add a chat button that links to our new chat page
                     emailCard.innerHTML = `
                         <h3>${email.subject || 'No Subject'}</h3>
                         <p><strong>From:</strong> ${email.from || 'Unknown Sender'}</p>
                         <p><strong>Summary:</strong> ${email.summary || 'No summary available.'}</p>
+                        <button class="chat-btn" onclick="location.href='/chat/${email.id}'">
+                            Chat About This Email
+                        </button>
                     `;
                     resultsDiv.appendChild(emailCard);
                 });
@@ -63,7 +88,6 @@
             } catch (error) {
                 resultsDiv.innerHTML = `<p style="color: red;"><strong>Error:</strong> ${error.message}</p>`;
             } finally {
-                // Hide loader
                 loader.style.display = 'none';
             }
         });
