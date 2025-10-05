@@ -1,5 +1,18 @@
-Mail Summarizer AI (3-Tier Architecture)
-This project has been refactored into a three-tier web application architecture.
+__Mail Summarizer AI__  
+
+This project is an AI-powered Mail Assistant designed to enhance email productivity. It securely connects to a user's Gmail account, fetches the latest emails, and uses a powerful large language model from the Cerebras AI Cloud to provide concise summaries.
+
+A key feature is the interactive chat interface. Users can select any summarized email and ask specific questions about its content, receiving instant, context-aware answers from the AI.
+
+The application is built on a modern three-tier architecture, ensuring scalability and a clean separation of concerns:
+
+1. A lightweight frontend service built with HTML, CSS, and JavaScript that runs in the browser.
+
+2. A robust backend API built with Python and Flask, which handles all business logic, including fetching emails and         communicating with the AI service.
+
+3. The Cerebras AI Cloud, which serves as the third tier, performing all the complex natural language processing tasks.
+
+The entire system is containerized using Docker and orchestrated with Docker Compose, making it easy to set up and run in any environment.
 
 Architecture Overview
 Frontend: A lightweight Flask server that serves the main user interface. It's a single-page application built with HTML, CSS, and vanilla JavaScript. It runs on port 8080.
@@ -8,7 +21,7 @@ Backend: A Flask API server that handles all the business logic. It connects to 
 
 Cloud AI: The external Cerebras API, which acts as our third tier for all machine learning model inferences.  
 
-![alt text](assets/arch.png)
+![Architecture](assets/arch.png)
 
 FILE STRUCTURE
 
